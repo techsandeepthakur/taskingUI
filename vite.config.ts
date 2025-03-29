@@ -7,4 +7,13 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://tasking-v4o6.onrender.com',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

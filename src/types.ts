@@ -11,6 +11,7 @@ export interface Project {
   };
 }
 
+
 export interface Task {
   type: 'MDDA Map' | 'Architecture Design' | 'Construction' | 'Other';
   name: string;

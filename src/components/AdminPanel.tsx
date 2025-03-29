@@ -21,6 +21,20 @@ const AdminPanel = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Create taskStatus object based on selected tasks
+    const taskStatus: {
+      mddaMap: Task['status'];
+      architectureDesign: Task['status'];
+      construction: Task['status'];
+      other: Task['status'];
+    } = {
+      mddaMap: 'pending',
+      architectureDesign: 'pending',
+      construction: 'pending',
+      other: 'pending'
+    };
+    
     const newProject = {
       id: Date.now().toString(),
       name: projectName,
@@ -29,18 +43,45 @@ const AdminPanel = () => {
         name: task === 'Other' ? customTask : task,
         status: 'pending' as const
       })),
+      taskStatus,
       createdAt: new Date().toISOString(),
       status: 'active' as const
     };
+    
     addProject(newProject);
     setShowModal(false);
     setProjectName('');
     setSelectedTasks([]);
     setCustomTask('');
   };
+  const handleStatusChange = (projectId: string, taskType: string, status: string) => {
+    // Find the project
+    const project = projects.find(p => p.id === projectId);
+    if (!project) return;
+    
+    // Find the index of the task type in the taskStatus object keys
+    const taskTypes = Object.keys(project.taskStatus || {});
+    const taskIndex = taskTypes.indexOf(taskType);
+    
+    if (taskIndex !== -1) {
+      updateTaskStatus(projectId, taskIndex, status as Task['status']);
+    }
+  };
 
-  const handleStatusChange = (projectId: string, taskIndex: number, status: Task['status']) => {
-    updateTaskStatus(projectId, taskIndex, status);
+  // Helper function to format task type for display
+  const formatTaskType = (taskType: string): string => {
+    switch (taskType) {
+      case 'mddaMap':
+        return 'MDDA Map';
+      case 'architectureDesign':
+        return 'Architecture Design';
+      case 'construction':
+        return 'Construction';
+      case 'other':
+        return 'Other';
+      default:
+        return taskType.charAt(0).toUpperCase() + taskType.slice(1).replace(/([A-Z])/g, ' $1');
+    }
   };
 
   const taskTypes = ['MDDA Map', 'Architecture Design', 'Construction', 'Other'];
@@ -96,22 +137,22 @@ const AdminPanel = () => {
                 </button>
               </div>
               <div className="space-y-3">
-                {project.tasks.map((task, index) => (
+                {Object.entries(project.taskStatus || {}).map(([taskType, status]) => (
                   <div
-                    key={index}
+                    key={taskType}
                     className="flex items-center justify-between bg-gray-50 p-3 rounded"
                   >
                     <span className="text-sm font-medium text-gray-700">
-                      {task.name}
+                      {formatTaskType(taskType)}
                     </span>
                     <select
-                      value={task.status}
-                      onChange={(e) => handleStatusChange(project.id, index, e.target.value as Task['status'])}
+                      value={status}
+                      onChange={(e) => handleStatusChange(project.id, taskType, e.target.value)}
                       className="ml-2 text-sm border rounded-md px-2 py-1 bg-white"
                     >
-                      {statusOptions.map((status) => (
-                        <option key={status} value={status}>
-                          {status}
+                      {statusOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
                         </option>
                       ))}
                     </select>
