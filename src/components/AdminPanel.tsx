@@ -72,11 +72,15 @@ const AdminPanel = () => {
   const formatTaskType = (taskType: string): string => {
     switch (taskType) {
       case 'mddaMap':
-        return 'MDDA Map';
-      case 'architectureDesign':
-        return 'Architecture Design';
-      case 'construction':
-        return 'Construction';
+        return 'MDDA Submission';
+      case 'layout':
+        return 'Layout';
+      case 'structureDwg':
+        return 'Structure Dwg';
+      case 'architectureDwg':
+        return 'Architecture Dwg';
+      case 'ext3D':
+        return 'Ext 3D';
       case 'other':
         return 'Other';
       default:
@@ -84,7 +88,7 @@ const AdminPanel = () => {
     }
   };
 
-  const taskTypes = ['MDDA Map', 'Architecture Design', 'Construction', 'Other'];
+  const taskTypes = ['layout','MDDA Submission', 'Structure Drawing', 'Architecture Drawing', 'Ext3D', 'Other'];
   const statusOptions: Task['status'][] = ['pending', 'in-progress', 'completed'];
 
   return (
@@ -117,7 +121,7 @@ const AdminPanel = () => {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <div
-              key={project.id}
+              key={project._id}
               className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200"
             >
               <div className="flex justify-between items-start mb-4">

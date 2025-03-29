@@ -6,6 +6,7 @@ import AdminPanel from './components/AdminPanel';
 import { ProjectProvider } from './context/ProjectContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import { AdminPage } from './components/AdminPage';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
               path="/admin"
               element={
                 <ProtectedRoute>
-                  <AdminPanel />
+                  <AdminPage />
                 </ProtectedRoute>
               }
             />

@@ -10,7 +10,7 @@ export const users: User[] = [
 
 export const initialProjects: Project[] = [
   {
-    id: '1',
+    _id: '1',
     name: 'Project A',
     createdAt: new Date().toISOString(),
     status: 'active',
@@ -22,7 +22,7 @@ export const initialProjects: Project[] = [
     }
   },
   {
-    id: '2',
+    _id: '2',
     name: 'Project B',
     createdAt: new Date().toISOString(),
     status: 'completed',

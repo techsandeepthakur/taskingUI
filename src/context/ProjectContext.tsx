@@ -112,7 +112,7 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
         }
         
         setProjects(prev => {
-          const newProjects = prev.filter(p => p.id !== id);
+          const newProjects = prev.filter(p => p._id !== id);
           localStorage.setItem('projects', JSON.stringify(newProjects));
           return newProjects;
         });
@@ -130,7 +130,7 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setIsLoading(true);
     setError(null);
     
-    const project = projects.find(p => p.id === projectId);
+    const project = projects.find(p => p._id === projectId);
     if (!project) {
       setError('Project not found');
       setIsLoading(false);
@@ -169,7 +169,7 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
         
         setProjects(prev => {
           const newProjects = prev.map(p => 
-            p.id === projectId ? { ...p, taskStatus: updatedTaskStatus } : p
+            p._id === projectId ? { ...p, taskStatus: updatedTaskStatus } : p
           );
           localStorage.setItem('projects', JSON.stringify(newProjects));
           return newProjects;
